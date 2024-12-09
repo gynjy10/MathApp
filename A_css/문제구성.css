@@ -1,0 +1,8 @@
+.menu-container {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* 메뉴 간 간격 */
+}
+.menu-container > div {
+    flex: 1; /* 각 메뉴의 동일한 너비를 유지 */
+}
