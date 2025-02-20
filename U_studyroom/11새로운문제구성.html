@@ -59,19 +59,61 @@
             </div>
 
             <!-- 독립 버튼 2 -->
-            <div>
-                <label for="dropdown2" class="form-label">난이도</label>
-                <select id="dropdown2" class="form-select">
-                    <option value="" selected>난이도 선택</option>
-                    <option value="f">기본개념확인</option>
-                    <option value="e">개념적용예제</option>
-                    <option value="d">개념응용기본</option>
-                    <option value="c">개념응용복합</option>
-                    <option value="b">다중개념적용기본</option>
-                    <option value="a">다중개념적용복합</option>
-                    <option value="x">고난이도</option>
-                </select>
+            <div class="dropdown">
+                <label for="dropdown">난이도</label>
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="difficultyDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    난이도 선택
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="difficultyDropdown">
+                    <li>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="difficultyF" value="f">
+                            <label for="difficultyF" class="form-check-label">기본개념확인</label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="difficultyE" value="e">
+                            <label for="difficultyE" class="form-check-label">개념적용예제</label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="difficultyD" value="d">
+                            <label for="difficultyD" class="form-check-label">개념응용기본</label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="difficultyC" value="c">
+                            <label for="difficultyC" class="form-check-label">개념응용복합</label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="difficultyB" value="b">
+                            <label for="difficultyB" class="form-check-label">다중개념적용기본</label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="difficultyA" value="a">
+                            <label for="difficultyA" class="form-check-label">다중개념적용복합</label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="difficultyX" value="x">
+                            <label for="difficultyX" class="form-check-label">고난이도</label>
+                        </div>
+                    </li>
+                    <li>
+                        <hr> <!-- 구분선 추가 -->
+                        <small class="text-muted px-3">1가지 또는 2가지 선택</small>
+                    </li>
+                </ul>
             </div>
+            
 
             <!-- 독립 버튼 3 -->
             <div>
@@ -83,6 +125,7 @@
                     <option value="20">20문항</option>
                 </select>
             </div>
+
         </div>
     </div>
 

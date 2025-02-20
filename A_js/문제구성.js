@@ -84,7 +84,7 @@ mainMenu.addEventListener("change", function () {
 // 대단원 선택 이벤트
 submenu1.addEventListener("change", async function () {
     const selectedUnit = submenu1.value; // 선택된 대단원의 unit 값
-    const selectedName = submenu1.options[submenu1.selectedIndex].text; // 선택된 대단원의 name 값
+    const selectedName = submenu1.options[submenu1.selectedIndex].text; // 선택된 대단원의 unit 이름
     submenu2.disabled = true;
     submenu2.innerHTML = `<option value="" selected>${selectedName}의 소단원 선택</option>`;
 
@@ -117,5 +117,12 @@ submenu1.addEventListener("change", async function () {
             console.error('Error handling submenu1 change:', error);
         }
     }
+
+    const selectedCategory = submenu2.value; // 선택된 소단원의 category 값
+    const selectedTitle = submenu2.options[submenu2.selectedIndex].text; // 선택된 소단원의 category 이름
+
+    const selectedCode = selectedUnit + selectedCategory; // 선택된 소단원의 code 값
+    console.log('selectedCode:', selectedCode); // 선택으로 조합된 코드넘버
+
 });
 

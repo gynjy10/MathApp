@@ -6,3 +6,8 @@
 .menu-container > div {
     flex: 1; /* 각 메뉴의 동일한 너비를 유지 */
 }
+.dropdown-menu {
+    padding: 10px;
+    max-height: 300px; /* 스크롤이 필요할 경우 설정 */
+    overflow-y: auto; /* 스크롤바 활성화 */
+}
