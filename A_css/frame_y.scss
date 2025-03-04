@@ -1,0 +1,23 @@
+// 세로방향 기본형 프레임
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+.lv0_page {
+height: 100px;
+background-color: #daedf8;
+display: flex;
+align-items: center;
+padding: 0 20px;
+}
+
+.lv1_page {
+height: 100px;
+background-color: #daedf8;
+display: flex;
+align-items: center;
+padding: 0 20px;
+}

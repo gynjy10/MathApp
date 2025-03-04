@@ -2,7 +2,7 @@
   width: 210mm;  /* A4 너비 */
   height: 297mm; /* A4 높이 */
   margin: 10mm auto;
-  padding: 20mm;
+  padding: 10mm;
   box-sizing: border-box;
   background: white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);

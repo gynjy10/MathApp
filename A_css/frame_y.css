@@ -1,0 +1,22 @@
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.lv0_page {
+  height: 100px;
+  background-color: #daedf8;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.lv1_page {
+  height: 100px;
+  background-color: #daedf8;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}/*# sourceMappingURL=frame_y.css.map */
