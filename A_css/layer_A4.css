@@ -4,7 +4,19 @@
   margin: 10mm auto;
   padding: 10mm;
   box-sizing: border-box;
-  background: white;
+  background: #ffffff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+/* 칠판스타일 적용 (차후 개념설명과 문제해설 부분에서 사용 or 사용자설정에 선택??....*/
+.blackboard {
+  width: 210mm;  /* A4 너비 */
+  height: 297mm; /* A4 높이 */
+  margin: 10mm auto;
+  padding: 10mm;
+  color: #ffffff;
+  box-sizing: border-box;
+  background: #016e25;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }

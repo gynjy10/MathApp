@@ -4,15 +4,24 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-
 }
 
-h1 {
-    color: #0c5702;
+.interval-x {
+    width: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
 }
-h2 {
-    color: #c90477;
+
+.interval-y {
+    height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 }
+
 h3 {
     color: #5905f5;
 }

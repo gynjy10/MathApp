@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","file":"setting.css"}
+{"version":3,"sources":["setting.scss","setting.css"],"names":[],"mappings":"AACA;EACI,OAAA;EACA,aAAA;EACA,sBAAA;EACA,gBAAA;ACAJ;;ADGE;EACA,aAAA;EACA,yBAAA;EACA,aAAA;EACA,mBAAA;EACA,eAAA;ACAF;;ADGE;EACA,aAAA;EACA,yBAAA;EACA,aAAA;EACA,mBAAA;EACA,eAAA;ACAF","file":"setting.css"}

@@ -1,0 +1,100 @@
+// 가로방향 기본형 프레임
+main {
+    flex: 1;
+    display: flex;
+// 가로방향셋팅필요요
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+// lv0_lv1_페이지 세팅 가로로 정리필요  
+  .lv0_page {
+  height: 100px;
+  background-color: #daedf8;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  }
+  
+  .lv1_page {
+  height: 100px;
+  background-color: #daedf8;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  }
+
+  h1 {
+    a {
+      text: {
+        decoration: none;
+        size: 30px;
+      }
+  
+      &:link {
+        color: orange;
+      }
+  
+      &:visited {
+        color: brown;
+      }
+      
+      &:hover {
+        color: aqua;
+        text-decoration: underline;
+      }
+  
+      &:active {
+        color: gray;
+      }
+    }
+  }
+  
+  h2 {
+    a {
+      text: {
+        decoration: none;
+        size: 25px;
+      }
+  
+      &:link {
+        color: blueviolet;
+      }
+  
+      &:visited {
+        color: greenyellow;
+      }
+      
+      &:hover {
+        color: orangered;    
+        text-decoration: underline;
+      }
+  
+      &:active {
+        color: gray;
+      }
+    }
+  }
+  
+  li {
+    a {
+      text: {
+        decoration: none;
+        size: 17px;
+      }
+  
+      &:link {
+        color: darkslategrey
+      }
+      
+      &:hover {
+        color: darkmagenta;    
+        text-decoration: underline;
+      }
+  
+      &:active {
+        color: darkgrey;
+      }
+    }
+  }
+  

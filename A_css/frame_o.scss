@@ -20,16 +20,19 @@
 
   // 헤더 푸터의 고정 높이
   .frame_o_header {
-    height: 60px;
+    height: 50px;
     background-color: #dcdcdc;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     padding: 0 20px;
+    i {
+      font-size: 24px;
+    }
   }
 
   .frame_o_footer {
-    height: 60px;
+    height: 50px;
     background-color: #dcdcdc;
     display: flex;
     justify-content: space-around;
