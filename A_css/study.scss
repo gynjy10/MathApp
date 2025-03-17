@@ -1,0 +1,232 @@
+// 세로방향 기본형 프레임
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+//아래 자바로 정리되면 정리할 스타일 내용들....
+h1 {
+  a {
+    text: {
+      decoration: none;
+      size: 30px;
+    }
+
+    &:link {
+      color: orange;
+    }
+
+    &:visited {
+      color: brown;
+    }
+    
+    &:hover {
+      color: aqua;
+      text-decoration: underline;
+    }
+
+    &:active {
+      color: gray;
+    }
+  }
+}
+
+.lv0_page {
+height: 80px;
+background-color: #daedf8;
+display: flex;
+justify-content: space-evenly;
+align-items: center;
+padding: 0 20px;
+}
+
+.help {
+  flex: 1;
+  display: flex;
+  height: 100%;
+}
+.nav-help {
+  flex: 0 0 17%;
+  background-color: #a6f8b1;
+  overflow-y: auto;
+  padding: 20px;
+}
+.setting {
+  flex: 1;
+  display: flex;
+  height: 100%;
+}
+.nav-setting {
+  flex: 0 0 17%;
+  background-color: #ecf790;
+  overflow-y: auto;
+  padding: 20px;
+}
+.usingAI {
+  flex: 1;
+  display: flex;
+  height: 100%;
+}
+.nav-usingAI {
+  flex: 0 0 17%;
+  background-color: #f8b1e3;
+  overflow-y: auto;
+  padding: 20px;
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// 새롭게 정의하는 메인프레임 (study) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.main-top {
+  display: flex;
+  height: 80px;
+
+  .title {
+    display: flex;
+    flex: 0 0 17%;
+    background-color: #fadede;
+    align-items: center;
+    padding: 0 20px;
+  }
+  #x-category {
+    display: flex;
+    flex: 1;
+    background-color: #f8b1e3;
+    align-items: center;
+    padding: 0 20px;
+  }
+}
+.main-frame {
+  display: flex;
+  height: 100%;
+
+  #y-slide {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 17%;
+    background-color: #a6f8b1;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  #contents {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding-left: 20px;
+    overflow-y: scroll; // 항상 스크롤바 표시
+  }
+}
+
+//stydy-main스타일~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.list-y {
+  overflow: hidden;
+  li {
+    max-height: 0;
+    font-size: 80%;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+  }
+  &:hover li{
+    max-height: 60px;
+    &:hover {
+      color: deeppink;
+      font-size: 90%;
+    }       
+  }
+}
+// (이전A4스타일과 결합된 영역) 우측 콘텐츠 영역: 남은 공간을 채우고 내부에 세로 스크롤 적용
+#content {
+  flex: 1;
+  overflow-y: auto;
+  padding-left: 20px;
+  overflow-y: scroll; // 항상 스크롤바 표시
+  //scrollbar-gutter: stable; (Safari 미지원)
+}
+
+// A4스타일 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.page { /* A4형태 페이지스타일 (책자 또는 프린트 형태로..)*/
+  width: 210mm;
+  height: 297mm;
+  margin: 10mm auto;
+  padding: 10mm;
+  box-sizing: border-box;
+  background: #ffffff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+/* 칠판스타일(화이트보드 또는 녹색칠판 선택시 배경과 텍스트컬러 각각 정리필요) 무한스타일로 정리할것...
+(차후 개념설명과 문제해설 부분에서 사용 or 사용자설정에 선택??...................
+
+.blackboard {
+  width: 210mm;
+  height: 297mm;
+  margin: 10mm auto;
+  padding: 10mm;
+  color: #ffffff;
+  box-sizing: border-box;
+  background: #016e25;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+*/
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page + .page {
+  margin-top: 10mm; /* 페이지 간격 */
+}
+
+@media print {
+    .page {
+      page-break-after: always;
+      box-shadow: none;
+      margin: 0;
+    }
+  }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+
+// 임시확인용 단원선택문제선택 스타일
+
+#study-title {
+  padding: 10px;
+  margin: 10px;
+  border: 2px solid hotpink;
+  border-radius: 8px;
+}
+.study-select {
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
+  align-items: center;
+
+  .course {
+    display: flex;
+  }
+}
+
+fieldset {
+  padding: 10px;
+  margin: 10px;
+  border: 2px solid gray; // 기본 보더 색상 (원하는 색으로 변경 가능) */
+  border-radius: 8px;     // 둥근 효과 (값은 조절 가능) */
+  transition: box-shadow 0.3s ease;  // 부드러운 그림자 전환 효과 */
+  
+  legend {
+    font-size: 75%;
+  }
+
+  &:hover {
+    box-shadow: 0 0 10px 2px skyblue;
+  }
+  &:focus-within {
+    box-shadow: 0 0 10px 2px orange;
+  }
+  &.selected {
+    box-shadow: 0 0 10px 2px green;
+  }
+}

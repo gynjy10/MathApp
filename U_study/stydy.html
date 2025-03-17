@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>나의 학습실</title>
+    <link rel="stylesheet" href="D:\git_repositorys\open_work_space\MathApp\A_css\frame_o.css">
+    <link rel="stylesheet" href="D:\git_repositorys\open_work_space\MathApp\A_css\study.css">
+    <!-- 부트스트랩 아이콘 링크 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+</head>
+<body>
+    <header class="head-frame">
+        <span>
+            [로고]
+            <span class="interval-x"></span>
+            0&young Dimension
+            <span class="interval-x"></span>
+            <a href="D:\git_repositorys\open_work_space\MathApp\index.html">
+                <i class="bi bi-house default-icon"></i>
+                <i class="bi bi-house-up hover-icon"></i>
+            </a>                
+        </span>
+        <span>
+            <a href="D:\git_repositorys\open_work_space\MathApp\U_study\stydy.html">
+                나의 학습실
+            </a>                
+            <span class="interval-x"></span>
+            <a href="D:\git_repositorys\open_work_space\MathApp\U_usingAI\00AI활용.html">
+                AI 활용
+            </a>                
+            <span class="interval-x"></span>
+            <a href="D:\git_repositorys\open_work_space\MathApp\U_help\00Q&A.html">
+                Q & A
+            </a>
+        </span>                    
+        <span>
+            <button type="submit">로그인</button>
+            <a href="D:\git_repositorys\open_work_space\MathApp\U_setting\00설정.html">
+                <i class="bi bi-person default-icon"></i>
+                <i class="bi bi-person-circle hover-icon"></i>
+            </a>                
+            <span class="interval-x"></span>
+            <a href="D:\git_repositorys\open_work_space\MathApp\U_setting\00설정.html">
+                <i class="bi bi-gear default-icon"></i>
+                <i class="bi bi-gear-fill hover-icon"></i>
+            </a>                
+            <span class="interval-x"></span>
+            <a href="D:\git_repositorys\open_work_space\MathApp\U_setting\01메뉴.html">
+                <i class="bi bi-three-dots-vertical default-icon"></i>
+                <i class="bi bi-three-dots hover-icon"></i>
+            </a>
+        </span>                    
+    </header>
+
+    <main>
+        <div class="main-top">
+            <div class="title">
+                <em>나의 학습실</em>
+            </div>
+
+            <div id="x-category"></div><!-- study.js -->
+            
+            <button type="submit">확인(결정)</button>
+            <button type="submit">선택하기</button>
+            <button type="submit">구성하기</button>
+
+        </div>
+        <div class="main-frame">
+            <div id="y-slide"></div><!-- study.js -->
+
+            <div id="contents">
+                <div id="study-title">타이틀....</div>
+                <div class="study-select">
+                    <div>
+                        <form action="">
+                            <fieldset class="course">
+                                <legend>학습 내용 결정</legend>
+                                <fieldset>
+                                    <legend>과정 선택</legend>
+                                    <label>공통수학1</label><input name="course" type="radio" value="h01">
+                                    <label>공통수학2</label><input name="course" type="radio" value="h02"><br>
+                                    <label>대수</label><input name="course" type="radio" value="h11">
+                                    <label>미적분1</label><input name="course" type="radio" value="h12"><br>
+                                    <label>확률과 통계</label><input name="course" type="radio" value="hs1">
+                                    <label>미적분2</label><input name="course" type="radio" value="hs2">
+                                    <label>기하</label><input name="course" type="radio" value="hs3">
+                                </fieldset>
+                                <fieldset>
+                                    <legend>대단원 선택</legend>
+                                    <!-- 상위 select: JSON의 unit의 값들을 옵션으로 구성 -->
+                                    <select id="unit-select" disabled>
+                                    <option value="">대단원 선택</option>
+                                    </select>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>소단원 선택</legend>
+                                    <!-- 하위 선택된 옵션의 category의 값들을 체크박스로 동적으로 추가 -->
+                                    <div id="category-checkbox"></div>
+                                </fieldset>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div>
+                        <form action="">
+                            <fieldset>
+                                <legend>난이도 선택</legend>
+                                <label>기본개념</label><input type="checkbox" name="co" value="bbb">
+                                <label>개념확인</label><input type="checkbox" name="co" value="bbb">
+                                <label>개념심화</label><input type="checkbox" name="co" value="bbb">
+                                <label>개념복합</label><input type="checkbox" name="co" value="bbb">
+                            </fieldset>
+                            <fieldset>
+                                <legend>문항수 비율과 문항수</legend>
+                                <div>문항수비율
+                                    <label>111</label><input type="checkbox" name="unt" value="ccc">
+                                    <label>211</label><input type="checkbox" name="unt" value="ccc">
+                                    <label>122</label><input type="checkbox" name="unt" value="ccc">
+                                </div>
+                                <div>문항수 선택
+                                    <input type="range" id="questionCount" name="count" min="5" max="25" step="1" value="10" oninput="questionOutput.value = this.value">
+                                    <output id="questionOutput">10</output>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- study.js -->
+    <script src="D:\git_repositorys\open_work_space\MathApp\A_js\study.js"></script>
+    <!-- A4프레임 문제 표현 -->
+    <script src="D:\git_repositorys\open_work_space\MathApp\A_js\A4_frame.js"></script>
+    <!-- MathJax for rendering mathematical expressions -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+
+    <footer class="foot-frame">
+        <article>
+            AI를 활용한 새로운 학습접근성으로 학원수업, 인터넷강의를 뛰어넘는 수학학습 컨텐츠 제공을 지향합니다.<br> 
+            AI시대를 함께여는 영n영 디멘션(0&young Dimension)
+        </article>
+    </footer>
+</body>
+</html>

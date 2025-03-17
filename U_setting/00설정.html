@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="D:\git_repositorys\open_work_space\MathApp\A_css\frame_y.css">
     <link rel="stylesheet" href="D:\git_repositorys\open_work_space\MathApp\A_css\layer_1.css">
     <link rel="stylesheet" href="D:\git_repositorys\open_work_space\MathApp\A_css\style.css">
+    <!-- 부트스트랩 아이콘 링크 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <!-- MathJax for rendering mathematical expressions -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async
@@ -14,21 +16,50 @@
     </script>
 </head>
 <body>
-    <header>
-        <div class="frame_o_header">
-            <span>
-                [로고]
-                0&young Dimension
-            </span>
-            <span>
-                <i class="bi bi-house"></i> 홈 아이콘
-            </span>
-            <span>
-                <button type="submit">로그인</button>
-                <i class="bi bi-gear"></i> 설정 아이콘
-                <i class="bi bi-three-dots-vertical"></i> 메뉴 아이콘
-            </span>
-        </div>
+    <header class="head-frame">
+        <span>
+            [로고]
+            <span class="interval-x"></span>
+            0&young Dimension
+            <span class="interval-x"></span>
+            <a href="D:\git_repositorys\open_work_space\MathApp\index.html">
+                <i class="bi bi-house default-icon"></i>
+                <i class="bi bi-house-up hover-icon"></i>
+            </a>                
+        </span>
+        <span>
+            <a href="D:\git_repositorys\open_work_space\MathApp\U_study\00나의학습실.html">
+                나의 학습실
+            </a>                
+            <span class="interval-x"></span>
+            <a href="D:\git_repositorys\open_work_space\MathApp\U_usingAI\00AI활용.html">
+                AI 활용
+            </a>                
+            <span class="interval-x"></span>
+            <a href="D:\git_repositorys\open_work_space\MathApp\U_help\00Q&A.html">
+                Q & A
+            </a>
+        </span>                    
+        <span>
+            <button type="submit">로그인</button>
+            <a href="D:\git_repositorys\open_work_space\MathApp\U_setting\00설정.html">
+                <i class="bi bi-person default-icon"></i>
+                <i class="bi bi-person-circle hover-icon"></i>
+            </a>                
+            <span class="interval-x"></span>
+            <a href="D:\git_repositorys\open_work_space\MathApp\U_setting\00설정.html">
+                <i class="bi bi-gear default-icon"></i>
+                <i class="bi bi-gear-fill hover-icon"></i>
+            </a>                
+            <span class="interval-x"></span>
+            <a href="D:\git_repositorys\open_work_space\MathApp\U_setting\01메뉴.html">
+                <i class="bi bi-three-dots-vertical default-icon"></i>
+                <i class="bi bi-three-dots hover-icon"></i>
+            </a>
+        </span>                    
+    </header>
+
+    <main>
         <h1 class="lv0_page">
             <a href="D:\git_repositorys\open_work_space\MathApp\index.html">Home</a>
             <a href="D:\git_repositorys\open_work_space\MathApp\U_study\00나의학습실.html">나의 학습실</a>
@@ -36,9 +67,6 @@
             <a href="D:\git_repositorys\open_work_space\MathApp\U_setting\00설정.html"><em>설정</em></a>
             <a href="D:\git_repositorys\open_work_space\MathApp\U_help\00Q&A.html">Help</a>
         </h1>
-    </header>
-
-    <main>
         <div class="setting">
             <div class="nav-setting">
                 <ul>
@@ -52,13 +80,11 @@
         </div>
     </main>
 
-    <footer>
-        <div class="frame_o_footer">
-            <article>
-                AI를 활용한 새로운 학습접근성으로 학원수업, 인터넷강의를 뛰어넘는 수학학습 컨텐츠 제공을 지향합니다.<br> 
-                AI시대를 함께여는 영n영 디멘션(0&young Dimension)
-            </article>
-        </div>
+    <footer class="foot-frame">
+        <article>
+            AI를 활용한 새로운 학습접근성으로 학원수업, 인터넷강의를 뛰어넘는 수학학습 컨텐츠 제공을 지향합니다.<br> 
+            AI시대를 함께여는 영n영 디멘션(0&young Dimension)
+        </article>
     </footer>
 </body>
 </html>

@@ -1,5 +1,3 @@
-@charset "UTF-8";
-/* 기본 초기화 및 박스모델 설정 */
 * {
   margin: 0;
   padding: 0;
@@ -13,29 +11,91 @@ html, body {
   font-family: Arial, sans-serif;
 }
 
-/* 전체 페이지를 세로 Flex 컨테이너로 구성 */
 body {
   display: flex;
   flex-direction: column;
 }
 
-.frame_o_header {
+.head-frame {
   height: 50px;
   background-color: #dcdcdc;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   padding: 0 20px;
 }
-.frame_o_header i {
+
+span a {
+  text-decoration: none;
+  font-size: 17px;
+}
+span a:not(:has(i)) {
+  color: green;
+  border: solid 2px transparent;
+  border-radius: 8px;
+  padding: 3px;
+}
+span a:not(:has(i)):hover {
+  color: orangered;
+  border-color: black;
+}
+span a:not(:has(i)):active {
+  color: gray;
+}
+span a i {
   font-size: 24px;
+  color: darkorchid;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+span a .hover-icon {
+  display: none;
+}
+span a:hover .default-icon {
+  display: none;
+}
+span a:hover .hover-icon {
+  display: inline-flex;
+  transform: scale(1.2);
+  color: darkcyan;
+}
+span a:active .default-icon {
+  display: none;
+}
+span a:active .hover-icon {
+  display: inline-flex;
+  transform: scale(1.2);
 }
 
-.frame_o_footer {
+.foot-frame {
   height: 50px;
   background-color: #dcdcdc;
   display: flex;
   justify-content: space-around;
   align-items: center;
   padding: 0 20px;
+}
+
+article {
+  color: #6e4403;
+}
+
+.interval-x {
+  display: inline-block;
+  width: 20px;
+}
+
+.interval-y {
+  display: inline-block;
+  height: 20px;
+}
+
+h3 {
+  color: #5905f5;
+}
+
+h4 {
+  color: #025a44;
 }/*# sourceMappingURL=frame_o.css.map */

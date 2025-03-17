@@ -1,4 +1,4 @@
-/* 기본 초기화 및 박스모델 설정 */
+// 기본 초기화 및 박스모델 설정
 * {
     margin: 0;
     padding: 0;
@@ -12,31 +12,111 @@
     font-family: Arial, sans-serif;
   }
 
-  /* 전체 페이지를 세로 Flex 컨테이너로 구성 */
+  // 전체 페이지를 세로 Flex 컨테이너로 구성
   body {
     display: flex;
     flex-direction: column;
   }
 
   // 헤더 푸터의 고정 높이
-  .frame_o_header {
+  .head-frame {
     height: 50px;
     background-color: #dcdcdc;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-    i {
-      font-size: 24px;
-    }
   }
 
-  .frame_o_footer {
+  span {
+    a {
+      text-decoration: none;
+      font-size: 17px;
+  
+      // 텍스트 스타일
+      &:not(:has(i)) {
+        color: green;
+        border: solid 2px transparent;
+        border-radius: 8px;
+        padding: 3px;
+
+        &:hover {
+          color: orangered;
+          border-color: black;          
+        }
+  
+        &:active {
+          color: gray;
+        }
+      }
+  
+      // 아이콘 스타일
+      i {
+        font-size: 24px;
+        color: darkorchid;
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+  
+      .hover-icon {
+        display: none;
+      }
+  
+      &:hover {
+        .default-icon {
+          display: none;
+        }
+  
+        .hover-icon {
+          display: inline-flex;
+          transform: scale(1.2);
+          color: darkcyan;
+        }
+      }
+  
+      &:active {
+        .default-icon {
+          display: none;
+        }
+  
+        .hover-icon {
+          display: inline-flex;
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+          
+  .foot-frame {
     height: 50px;
     background-color: #dcdcdc;
     display: flex;
     justify-content: space-around;
     align-items: center;
     padding: 0 20px;
+  }
+  article {
+      color: #6e4403; 
+  }
+
+  .interval-x {
+    display: inline-block;
+    width: 20px;
+  }
+  .interval-y {
+    display: inline-block;
+    height: 20px;
+  }
+
+
+
+  // 현재는 임시로 둘것... 문제정리되면제거거
+  h3 {
+      color: #5905f5;
+  }
+  h4 {
+      color: #025a44;
   }
 
