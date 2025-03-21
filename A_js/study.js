@@ -1,857 +1,171 @@
 // study 페이지 관리
 
-document.addEventListener("DOMContentLoaded", function() {
-  // studyCategory 객체
-  const studyCategory = {
-    "학습실메인(contents)": [
-      "개념설명 (정의와 원리의 이해)", 
-      "기본문제 (이해력 연습)", 
-      "기본과제 (이해력 향상과제 - 새로운 문제구성)", 
-      "심화과제 (문제해결력 확장과제 - 난이도문제구성)", 
-      "과제확인 (이해력문제해결력 확인 - 과제AB)"
-    ],
-    "평가&확인&수능(exercise)": [
-      "평가A (이해력 확인평가)", 
-      "평가A분석", 
-      "보완학습(과제와 테스트로 추가개념과 문제)", 
-      "내신모의평가", 
-      "내신모의평가분석", 
-      "내신대비보완학습", 
-      "수능모의평가", 
-      "수능모의평가분석", 
-      "수능대비보완학습"
-    ],
-    "진도와분석(progress)": [
-      "진도확인(학습진행상황)", 
-      "단원별성취도분석(나의학습분석)", 
-      "학습방향조언(학습진행도우미)"
-    ]
-  };
+// 서버를 갖추고 모듈화 할때 사용방법 (현재는 import export없이 study.js앞에 링크거는 것으로 해결)
+// import { studyCategory} from 'D:/git_repositorys/open_work_space/MathApp/B_data/studyCategory.js';
+// import { courseData } from 'D:/git_repositorys/open_work_space/MathApp/B_data/courseData.js';
 
-  // y-slide 영역 구성
+document.addEventListener("DOMContentLoaded", function() {
+
   const ySlide = document.getElementById("y-slide");
   let yHtml = "";
-  for (const category in studyCategory) {
-    yHtml += `<ul class="list-y">${category}`;
-    studyCategory[category].forEach(function(item) {
-      // 각 li 태그에 data-category 속성을 추가
-      yHtml += `<li data-category="${category}">${item}</li>`;
-    });
-    yHtml += `</ul>`;
-    yHtml += `<div class="interval-y"></div>`;
+  for (const outerCat in studyCategory) {
+    yHtml += `<ul class="list-y">${outerCat}`;
+    const innerObj = studyCategory[outerCat];
+    for (const key in innerObj) {
+      yHtml += `<li id="${key}" data-category="${outerCat}">${innerObj[key]}</li>`;
+    }
+    yHtml += `</ul><div class="interval-y"></div>`;
   }
   ySlide.innerHTML = yHtml;
 
-  // x-category 영역 초기 구성 (모든 카테고리 표시 또는 기본 메시지)
+  // -------------------------------
+  // ② 기본 요소 및 초기 상태 설정
+  // -------------------------------
   const xCategory = document.getElementById("x-category");
-  let xHtml = "";
-  const keys = Object.keys(studyCategory);
-  keys.forEach(function(key, index) {
-    xHtml += `<div>${key}</div>`;
-    if (index !== keys.length - 1) {
-      xHtml += `<div class="interval-x"></div>`;
-    }
-  });
-  xCategory.innerHTML = xHtml;
+  const studyTitle = document.getElementById("study-title");
+  const courseField = document.querySelector('.course');
+  const problemField = document.querySelector('.problem');
+  const pageDiv = document.querySelector(".page");
+  // 초기 상태: 선택 폼 숨김, 결과 영역 보임
+  if (courseField) courseField.style.display = "none";
+  if (problemField) problemField.style.display = "none";
+  if (pageDiv) pageDiv.style.display = "block";
 
-  // y-slide 내의 li 태그 클릭 시, x-category 영역 업데이트
+  // -------------------------------
+  // ③ 좌측 메뉴 클릭 시 UI 초기화 및 폼 표시
+  // -------------------------------
   ySlide.addEventListener("click", function(event) {
-    const target = event.target;
-    if (target.tagName.toLowerCase() === "li") {
-      const selectedItem = target.textContent;
-      const selectedCategory = target.dataset.category;
-      // x-category 영역을 선택된 카테고리와 항목으로 업데이트
-      xCategory.innerHTML = `
-        <div>${selectedCategory}</div>
-        <div class="interval-x"></div>
-        <div>${selectedItem}</div>
-      `;
+    if (event.target.tagName.toLowerCase() === "li") {
+      // 재초기화: 상단 제목, 선택영역, 확인 버튼 보이고 결과 영역 숨김
+      document.getElementById("study-title").style.display = "block";
+      const studySelect = document.querySelector(".study-select");
+      if (studySelect) studySelect.style.display = "block";
+      document.getElementById("confirm-button").style.display = "block";
+      if (pageDiv) pageDiv.style.display = "none";
+
+      const target = event.target;
+      const selectedId = target.id;
+      const selectedText = target.textContent;
+      const selectedOuterCat = target.dataset.category;
+      xCategory.innerHTML = `<div>${selectedOuterCat}</div><div class="interval-x"></div><div>${selectedText}</div>`;
+
+      // 폼 표시 조건
+      const setCourseOnly = ["c-principle", "e-testSupplement", "e-examSimulationSupplement", "e-satSimulationSupplement", "p-learningAnalysis"];
+      const setCourseAndProblem = ["c-basic", "c-training", "c-intensive", "e-test", "e-examSimulation", "e-satSimulation"];
+      if (setCourseOnly.includes(selectedId)) {
+        if (courseField) courseField.style.display = "block";
+        if (problemField) problemField.style.display = "none";
+      } else if (setCourseAndProblem.includes(selectedId)) {
+        if (courseField) courseField.style.display = "block";
+        if (problemField) problemField.style.display = "block";
+      } else {
+        if (courseField) courseField.style.display = "none";
+        if (problemField) problemField.style.display = "none";
+      }
+      studyTitle.textContent = selectedText;
+
+      // 확인 버튼 텍스트 업데이트
+      const confirmButton = document.querySelector("#confirm-button button");
+      if (confirmButton) {
+        if (courseField && courseField.style.display !== "none" && problemField && problemField.style.display !== "none") {
+          confirmButton.textContent = "구성하기";
+        } else if (courseField && courseField.style.display !== "none") {
+          confirmButton.textContent = "선택하기";
+        } else {
+          confirmButton.textContent = "선택하기 or 구성하기";
+        }
+      }
     }
   });
-});
 
-
-
-
-const courseData = {
-  h01: [
-    {
-      "unit": {"NS": "수체계"},
-      "category": {
-          "00": "수체계",
-          "01": "연산의 기본성질",
-          "02": "실수의 대소 관계",
-          "03": "절댓값의 정의",
-          "04": "절댓값의 성질",
-          "05": "절댓값의 계산",
-          "06": "복소수의 정의",
-          "07": "복소수의 연산",
-          "08": "복소수의 성질",
-          "09": "이항연산과 항등원,역원"
-      }
-    },
-    {
-      "unit": {"FC": "식의 연산"},
-      "category": {
-          "00": "다항식의 정의",
-          "01": "곱셈정리",
-          "02": "곱셈정리의 활용",
-          "03": "인수분해",
-          "04": "인수분해 공식",
-          "05": "항등식",
-          "06": "미정계수의 결정",
-          "07": "다항식의 나눗셈",
-          "08": "나머지정리",
-          "09": "인수정리와 조립제법",
-          "10": "약수와 배수",
-          "11": "최대공약수와 최소공배수",
-          "12": "최대공약수와 최소공배수의 성질",
-          "13": "유리식",
-          "14": "부분분수",
-          "15": "비례식",
-          "16": "제곱근의 성질",
-          "17": "무리식",
-          "18": "이중근호",
-          "19": "연조립제법과 다항식의 기수법",
-          "20": "정수의 분류",
-          "21": "기수법과 비둘기집의 원리",
-          "22": "가비의 리"
-      }
-    },
-    {
-      "unit": {"EI": "방정식과 부등식"},
-      "category": {
-          "00": "일차방정식",
-          "01": "이차방정식",
-          "02": "이차방정식 근의 판별",
-          "03": "복잡한 방정식의 해법",
-          "04": "고차방정식",
-          "05": "근과 계수와의 관계",
-          "06": "방정식의 작성",
-          "07": "켤레근의 성질",
-          "08": "이차방정식 실근의 부호",
-          "09": "공통근",
-          "10": "연립일차방정식",
-          "11": "연립이차방정식",
-          "12": "부정방정식",
-          "13": "부등식의 기본 성질",
-          "14": "일차부등식",
-          "15": "이차부등식",
-          "16": "연립부등식과 부등식의 연산",
-          "17": "절대부등식",
-          "18": "산술평균과 기하평균",
-          "19": "코시-슈발츠 부등식",
-          "20": "분수방정식",
-          "21": "무리방정식",
-          "22": "고차부등식",
-          "23": "분수부등식",
-          "24": "절댓값이 있는 방정식",
-          "25": "오메가의 성질",
-          "26": "근과 계수 관계의 활용",
-          "27": "가우스 기호의 정의",
-          "28": "가우스 기호의 성질과 활용",
-          "29": "절댓값이 있는 부등식"
-      }
-    },
-    {
-      "unit": {"PC": "순열과 조합"},
-      "category": {
-          "00": "경우의 수",
-          "01": "여러 가지 경우의 수",
-          "02": "순열",
-          "03": "조건이 있는 순열",
-          "04": "같은 것이 있는 순열",
-          "05": "중복순열",
-          "06": "원순열",
-          "07": "조합",
-          "08": "중복조합",
-          "09": "함수의 가짓수",
-          "10": "이항정리",
-          "11": "이항계수의 성질",
-          "12": "이항정리의 곱셈",
-          "13": "이항계수와 조합의 관계",
-          "14": "미분,적분과 이항계수",
-          "15": "다항정리",
-          "16": "완전순열",
-          "17": "고리순열",
-          "18": "분할,분배와 대진표의 작성"
-      }
-    },
-    {
-      "unit": {"MT": "행렬"},
-      "category": {
-          "00": "행렬의 정의",
-          "01": "행렬의 덧셈,뺄셈",
-          "02": "행렬의 곱셈",
-          "03": "행렬 곱셈의 성질",
-          "04": "행렬의 2차식",
-          "05": "행렬 곱셈의 특성과 선형성",
-          "06": "역행렬의 정의",
-          "07": "역행렬의 성질",
-          "08": "행렬식의 성질",
-          "09": "전치행렬과 대각행렬",
-          "10": "연립일차방정식과 행렬",
-          "11": "그래프의 정의",
-          "12": "인접행렬과 그래프"
-      }
-    }
-  ],
-  h02: [
-    {
-      "unit": {"AG": "도형의 방정식"},
-      "category": {
-          "00": "두 점 사이의 거리",
-          "01": "기울기와 직선의 방정식",
-          "02": "두 직선의 위치관계",
-          "03": "두 직선의 교점을 지나는 직선",
-          "04": "점과 직선 사이의 거리",
-          "05": "원의 방정식",
-          "06": "원과 직선의 위치관계",
-          "07": "원의 접선의 방정식",
-          "08": "원의 접선의 활용",
-          "09": "두 원의 위치관계",
-          "10": "평행이동",
-          "11": "대칭이동",
-          "12": "내분점과 외분점",
-          "13": "직선의 자취방정식",
-          "14": "원의 자취방정식과 아폴로니우스 원",
-          "15": "공통접선",
-          "16": "두 원의 교점을 지나는 도형",
-          "17": "부등식 영역의 표현",
-          "18": "부등식 영역의 활용"
-      }
-    },
-    {
-      "unit": {"SP": "집합과 명제"},
-      "category": {
-          "00": "집합과 원소",
-          "01": "부분집합",
-          "02": "부분집합의 개수",
-          "03": "집합의 연산",
-          "04": "집합의 연산법칙",
-          "05": "여러 가지 집합의 연산",
-          "06": "유한집합 원소의 개수",
-          "07": "원소개수의 활용",
-          "08": "명제의 정의",
-          "09": "명제의 참과 거짓",
-          "10": "명제의 역,이,대우",
-          "11": "필요조건과 충분조건",
-          "12": "대칭차집합",
-          "13": "삼단논법",
-          "14": "Power Set (멱집합)"
-      }
-    },
-    {
-      "unit": {"FN": "함수"},
-      "category": {
-          "00": "함수의 정의",
-          "01": "여러 가지 함수",
-          "02": "합성함수",
-          "03": "역함수",
-          "04": "일차함수",
-          "05": "이차함수",
-          "06": "이차함수의 최대,최소",
-          "07": "이차함수와 방정식,부등식",
-          "08": "이차함수와 직선의 관계",
-          "09": "이차방정식 근의 분리",
-          "10": "유리함수",
-          "11": "무리함수",
-          "12": "함수의 가짓수",
-          "13": "절댓값의 그래프",
-          "14": "홀수함수와 짝수함수",
-          "15": "함수로 표현된 자취와 부등식의 영역",
-          "16": "그래프의 주기성과 대칭성",
-          "17": "그래프의 축소와 확대",
-          "18": "가우스 기호와 함수",
-          "19": "가우스 함수의 그래프",
-          "20": "함수의 증가와 감소",
-          "21": "함수의 오목과 볼록"
-      }
-    }
-  ],
-  h11: [
-    {
-      "unit": {"EL": "지수와 로그"},
-      "category": {
-          "00": "거듭제곱근의 성질",
-          "01": "지수의 성질",
-          "02": "로그의 정의(지수와 로그의 관계)",
-          "03": "로그의 성질",
-          "04": "상용로그의 정의",
-          "05": "지표,가수와 상용로그표",
-          "06": "지표와 가수의 활용",
-          "07": "지수 계산의 특성"
-      }
-    },
-    {
-      "unit": {"EF": "지수함수와 로그함수"},
-      "category": {
-          "00": "지수함수",
-          "01": "지수함수의 최대,최소",
-          "02": "지수방정식",
-          "03": "지수부등식",
-          "04": "로그함수",
-          "05": "로그함수의 최대,최소",
-          "06": "로그방정식",
-          "07": "로그부등식",
-          "08": "지수관계 함수식 구성",
-          "09": "로그관계 함수식 구성"
-      }
-    },
-    {
-      "unit": {"TG": "삼각함수"},
-      "category": {
-          "00": "호도법과 부채꼴",
-          "01": "각의 측정과 표현",
-          "02": "삼각함수의 정의",
-          "03": "단위원과 삼각함수",
-          "04": "삼각함수의 관계",
-          "05": "삼각함수의 성질",
-          "06": "삼각함수의 그래프",
-          "07": "삼각함수의 주기와 최대,최소",
-          "08": "삼각방정식과 삼각부등식",
-          "09": "사인법칙",
-          "10": "코사인법칙",
-          "11": "삼각형의 넓이",
-          "12": "삼각함수의 덧셈정리",
-          "13": "삼각함수의 합성",
-          "14": "배각의 공식",
-          "15": "반각의 공식",
-          "16": "곱을 합 또는 차로 변형하는 공식",
-          "17": "합 또는 차를 곱으로 변형하는 공식",
-          "18": "삼각방정식과 부등식의 일반해"
-      }
-    },
-    {
-      "unit": {"SQ": "수열"},
-      "category": {
-          "00": "수열의 정의",
-          "01": "등차수열",
-          "02": "등차중항",
-          "03": "등차수열의 합",
-          "04": "수열의 합과 일반항의 관계",
-          "05": "조화수열",
-          "06": "등비수열",
-          "07": "등비중항",
-          "08": "등비수열의 합",
-          "09": "시그마의 정의와 성질",
-          "10": "시그마의 변형",
-          "11": "거듭제곱의 합, 시그마의 공식",
-          "12": "복잡한 시그마의 계산",
-          "13": "점화식의 정의와 기본 점화식",
-          "14": "표준 점화식",
-          "15": "수학적 귀납법의 증명형식",
-          "16": "원리합계",
-          "17": "적립총액",
-          "18": "적립총액의 활용",
-          "19": "도형으로 표현된 수열의 합",
-          "20": "계차수열",
-          "21": "최대 분할수",
-          "22": "다각수(Polygonal number)",
-          "23": "군수열",
-          "24": "Power Series (멱급수)",
-          "25": "여러 가지 점화식",
-          "26": "피보나치 수열",
-          "27": "피보나치 수열의 활용",
-          "28": "알고리즘과 순서도"
-      }
-    }
-  ],
-  h12: [
-    {
-      "unit": {"LC": "함수의 극한과 연속성"},
-      "category": {
-          "00": "함수 극한의 정의",
-          "01": "함수의 극한값 계산",
-          "02": "함수 극한의 성질",
-          "03": "미정계수의 결정",
-          "04": "삼각함수의 극한",
-          "05": "자연상수 e의 정의",
-          "06": "지수,로그함수의 극한",
-          "07": "함수의 연속성",
-          "08": "연속함수의 성질",
-          "09": "중간값의 정리와 최대최소의 정리",
-          "10": "초월함수의 연속성과 활용",
-          "11": "등비수열의 극한으로 표현된 함수"
-      }
-    },
-    {
-      "unit": {"DF": "미분"},
-      "category": {
-          "00": "평균변화율,미분계수와 도함수",
-          "01": "미분법1",
-          "02": "미분법의 활용",
-          "03": "미분법2",
-          "04": "삼각함수의 도함수",
-          "05": "지수함수의 도함수",
-          "06": "로그함수의 도함수",
-          "07": "미분가능과 연속",
-          "08": "초월함수의 미분가능",
-          "09": "합성함수의 미분",
-          "10": "음함수의 미분",
-          "11": "역함수의 미분",
-          "12": "매개변수의 미분",
-          "13": "이계도함수와 고계도함수",
-          "14": "평균값의 정리와 로피탈의 정리",
-          "15": "접선의 방정식과 미분",
-          "16": "초월함수,음함수와 접선",
-          "17": "함수의 증가,감소",
-          "18": "함수의 극대,극소",
-          "19": "삼차함수 극값의 존재",
-          "20": "초월함수의 극값",
-          "21": "오목,볼록과 이계도함수",
-          "22": "변곡점과 점근선",
-          "23": "함수의 최대,최소",
-          "24": "함수의 그래프와 방정식,부등식",
-          "25": "속도,가속도와 미분",
-          "26": "초월함수의 미분활용",
-          "27": "이차함수와 삼차함수의 미분 특성"
-      }
-    },
-    {
-      "unit": {"IG": "적분"},
-      "category": {
-          "00": "부정적분의 정의",
-          "01": "부정적분과 미분",
-          "02": "부정적분의 계산",
-          "03": "부정적분의 성질",
-          "04": "초월함수의 부정적분",
-          "05": "치환적분법",
-          "06": "삼각치환법",
-          "07": "치환적분을 이용한 삼각함수의 부정적분",
-          "08": "부분적분법",
-          "09": "구분구적법",
-          "10": "정적분의 정의",
-          "11": "정적분의 성질",
-          "12": "짝수함수와 홀수함수의 정적분",
-          "13": "초월함수의 정적분",
-          "14": "정적분의 치환적분",
-          "15": "정적분의 부분적분",
-          "16": "정적분과 함수",
-          "17": "정적분과 미분",
-          "18": "정적분과 극한",
-          "19": "정적분과 무한급수",
-          "20": "초월함수와 정적분의 활용",
-          "21": "넓이의 적분",
-          "22": "두 곡선 사이의 넓이",
-          "23": "이차함수와 삼차함수의 넓이공식",
-          "24": "초월함수의 넓이적분",
-          "25": "부피의 적분",
-          "26": "회전체의 부피",
-          "27": "초월함수의 부피적분",
-          "28": "위치변화량과 적분",
-          "29": "초월함수의 위치변화량과 적분",
-          "30": "평면 위의 운동과 곡선의 길이",
-          "31": "다항함수의 넓이적분 특성",
-          "32": "넓이공식",
-          "33": "넓이와 부피관계의 공식",
-          "34": "여러 가지 회전체"
-      }
-    }
-  ],
-  hs1: [
-    {
-      "unit": {"PC": "순열과 조합"},
-      "category": {
-          "00": "경우의 수",
-          "01": "여러 가지 경우의 수",
-          "02": "순열",
-          "03": "조건이 있는 순열",
-          "04": "같은 것이 있는 순열",
-          "05": "중복순열",
-          "06": "원순열",
-          "07": "조합",
-          "08": "중복조합",
-          "09": "함수의 가짓수",
-          "10": "이항정리",
-          "11": "이항계수의 성질",
-          "12": "이항정리의 곱셈",
-          "13": "이항계수와 조합의 관계",
-          "14": "미분,적분과 이항계수",
-          "15": "다항정리",
-          "16": "완전순열",
-          "17": "고리순열",
-          "18": "분할,분배와 대진표의 작성"
-      }
-    },
-    {
-      "unit": {"PB": "확률"},
-      "category": {
-          "00": "확률의 표현",
-          "01": "수학적 확률",
-          "02": "통계적 확률과 기하학적 확률",
-          "03": "확률의 덧셈정리",
-          "04": "조건부 확률",
-          "05": "독립사건과 종속사건",
-          "06": "확률의 곱셈정리",
-          "07": "독립시행의 확률",
-          "08": "기하학적 확률의 역설"
-      }
-    },
-    {
-      "unit": {"ST": "통계"},
-      "category": {
-          "00": "도수분포의 평균,분산,표준편차",
-          "01": "확률분포와 확률질량함수",
-          "02": "이산확률분포의 평균,분산,표준편차",
-          "03": "확률변수의 성질",
-          "04": "이항분포",
-          "05": "이항분포의 평균,분산,표준편차",
-          "06": "큰 수의 법칙",
-          "07": "연속확률분포와 확률밀도함수",
-          "08": "연속확률변수의 평균,분산,표준편차",
-          "09": "정규분포",
-          "10": "표준정규분포와 표준화",
-          "11": "표준정규분포표",
-          "12": "모집단,표본과 표본평균",
-          "13": "표본평균의 분포",
-          "14": "모평균의 신뢰도와 추정",
-          "15": "신뢰구간의 길이",
-          "16": "표본비율의 분포",
-          "17": "모비율의 추정",
-          "18": "가평균을 이용한 평균,분산,표준편차"
-      }
-    }
-  ],
-  hs2: [
-    {
-      "unit": {"SL": "수열의 극한"},
-      "category": {
-          "00": "무한수열의 극한",
-          "01": "극한값의 계산",
-          "02": "무한등비수열의 극한",
-          "03": "수열 극한의 성질",
-          "04": "무한급수",
-          "05": "무한급수의 성질",
-          "06": "무한급수의 판정",
-          "07": "무한등비급수(등비급수)",
-          "08": "무한등비급수의 활용"
-      }
-    },
-    {
-      "unit": {"DF": "미분"},
-      "category": {
-          "00": "평균변화율,미분계수와 도함수",
-          "01": "미분법1",
-          "02": "미분법의 활용",
-          "03": "미분법2",
-          "04": "삼각함수의 도함수",
-          "05": "지수함수의 도함수",
-          "06": "로그함수의 도함수",
-          "07": "미분가능과 연속",
-          "08": "초월함수의 미분가능",
-          "09": "합성함수의 미분",
-          "10": "음함수의 미분",
-          "11": "역함수의 미분",
-          "12": "매개변수의 미분",
-          "13": "이계도함수와 고계도함수",
-          "14": "평균값의 정리와 로피탈의 정리",
-          "15": "접선의 방정식과 미분",
-          "16": "초월함수,음함수와 접선",
-          "17": "함수의 증가,감소",
-          "18": "함수의 극대,극소",
-          "19": "삼차함수 극값의 존재",
-          "20": "초월함수의 극값",
-          "21": "오목,볼록과 이계도함수",
-          "22": "변곡점과 점근선",
-          "23": "함수의 최대,최소",
-          "24": "함수의 그래프와 방정식,부등식",
-          "25": "속도,가속도와 미분",
-          "26": "초월함수의 미분활용",
-          "27": "이차함수와 삼차함수의 미분 특성"
-      }
-    },
-    {
-      "unit": {"IG": "적분"},
-      "category": {
-          "00": "부정적분의 정의",
-          "01": "부정적분과 미분",
-          "02": "부정적분의 계산",
-          "03": "부정적분의 성질",
-          "04": "초월함수의 부정적분",
-          "05": "치환적분법",
-          "06": "삼각치환법",
-          "07": "치환적분을 이용한 삼각함수의 부정적분",
-          "08": "부분적분법",
-          "09": "구분구적법",
-          "10": "정적분의 정의",
-          "11": "정적분의 성질",
-          "12": "짝수함수와 홀수함수의 정적분",
-          "13": "초월함수의 정적분",
-          "14": "정적분의 치환적분",
-          "15": "정적분의 부분적분",
-          "16": "정적분과 함수",
-          "17": "정적분과 미분",
-          "18": "정적분과 극한",
-          "19": "정적분과 무한급수",
-          "20": "초월함수와 정적분의 활용",
-          "21": "넓이의 적분",
-          "22": "두 곡선 사이의 넓이",
-          "23": "이차함수와 삼차함수의 넓이공식",
-          "24": "초월함수의 넓이적분",
-          "25": "부피의 적분",
-          "26": "회전체의 부피",
-          "27": "초월함수의 부피적분",
-          "28": "위치변화량과 적분",
-          "29": "초월함수의 위치변화량과 적분",
-          "30": "평면 위의 운동과 곡선의 길이",
-          "31": "다항함수의 넓이적분 특성",
-          "32": "넓이공식",
-          "33": "넓이와 부피관계의 공식",
-          "34": "여러 가지 회전체"
-      }
-    }
-  ],
-  hs3: [
-    {
-      "unit": {"QC": "이차곡선"},
-      "category": {
-          "00": "포물선의 방정식",
-          "01": "포물선과 직선의 위치관계",
-          "02": "포물선의 접선의 방정식",
-          "03": "포물선의 성질",
-          "04": "타원의 방정식",
-          "05": "원과 타원",
-          "06": "타원과 직선의 위치관계",
-          "07": "타원의 접선의 방정식",
-          "08": "타원의 성질",
-          "09": "쌍곡선의 방정식",
-          "10": "쌍곡선과 직선의 위치관계",
-          "11": "쌍곡선의 접선의 방정식",
-          "12": "쌍곡선의 성질",
-          "13": "이차식과 이차곡선",
-          "14": "이차곡선의 접선정리",
-          "15": "자취의 방정식과 이심률",
-          "16": "이차곡선 부등식의 영역"
-      }
-    },
-    {
-      "unit": {"SC": "공간도형과 공간좌표"},
-      "category": {
-          "00": "공간도형의 기본 성질",
-          "01": "평면과 직선의 위치관계",
-          "02": "평행과 수직에 대한 성질",
-          "03": "공간도형에서 각의 정의",
-          "04": "삼수선의 정리",
-          "05": "정사영의 정리",
-          "06": "공간좌표의 정의",
-          "07": "구의 방정식",
-          "08": "두 구의 위치관계",
-          "09": "평면과 구의 위치관계",
-          "10": "축과 구의 위치관계",
-          "11": "구의 자취방정식"
-      }
-    },
-    {
-      "unit": {"VC": "벡터"},
-      "category": {
-          "00": "벡터의 정의",
-          "01": "벡터의 크기와 평행,일치",
-          "02": "벡터의 덧셈",
-          "03": "벡터의 뺄셈",
-          "04": "위치벡터",
-          "05": "평면벡터의 성분",
-          "06": "공간벡터의 성분",
-          "07": "위치벡터의 활용",
-          "08": "벡터 내적의 정의",
-          "09": "내적의 성질",
-          "10": "내적의 활용",
-          "11": "직선의 벡터방정식",
-          "12": "공간좌표와 직선의 방정식",
-          "13": "직선의 위치관계와 벡터",
-          "14": "평면의 벡터방정식",
-          "15": "공간좌표와 평면의 방정식",
-          "16": "평면의 위치관계와 벡터",
-          "17": "직선과 평면의 관계",
-          "18": "평면과 구의 관계",
-          "19": "직선과 구의 관계",
-          "20": "여러 가지 벡터방정식",
-          "21": "벡터 외적의 정의",
-          "22": "벡터로 표현된 부등식의 영역"
-      }
-    }
-  ],
-  hu: [
-    {
-      "unit": {"LT": "일차변환과 행렬"},
-      "category": {
-          "00": "일차변환의 정의",
-          "01": "일차변환의 선형성",
-          "02": "닮음변환과 대칭변환",
-          "03": "회전변환",
-          "04": "일차변환의 합성",
-          "05": "일차변환의 역변환",
-          "06": "일차변환과 도형",
-          "07": "부동점과 부동직선"
-      }
-    },
-    {
-      "unit": {"EI": "방정식과 부등식"},
-      "category": {
-          "00": "일차방정식",
-          "01": "이차방정식",
-          "02": "이차방정식 근의 판별",
-          "03": "복잡한 방정식의 해법",
-          "04": "고차방정식",
-          "05": "근과 계수와의 관계",
-          "06": "방정식의 작성",
-          "07": "켤레근의 성질",
-          "08": "이차방정식 실근의 부호",
-          "09": "공통근",
-          "10": "연립일차방정식",
-          "11": "연립이차방정식",
-          "12": "부정방정식",
-          "13": "부등식의 기본 성질",
-          "14": "일차부등식",
-          "15": "이차부등식",
-          "16": "연립부등식과 부등식의 연산",
-          "17": "절대부등식",
-          "18": "산술평균과 기하평균",
-          "19": "코시-슈발츠 부등식",
-          "20": "분수방정식",
-          "21": "무리방정식",
-          "22": "고차부등식",
-          "23": "분수부등식",
-          "24": "절댓값이 있는 방정식",
-          "25": "오메가의 성질",
-          "26": "근과 계수 관계의 활용",
-          "27": "가우스 기호의 정의",
-          "28": "가우스 기호의 성질과 활용",
-          "29": "절댓값이 있는 부등식"
-      }
-    },
-    {
-      "unit": {"TG": "삼각함수"},
-      "category": {
-          "00": "호도법과 부채꼴",
-          "01": "각의 측정과 표현",
-          "02": "삼각함수의 정의",
-          "03": "단위원과 삼각함수",
-          "04": "삼각함수의 관계",
-          "05": "삼각함수의 성질",
-          "06": "삼각함수의 그래프",
-          "07": "삼각함수의 주기와 최대,최소",
-          "08": "삼각방정식과 삼각부등식",
-          "09": "사인법칙",
-          "10": "코사인법칙",
-          "11": "삼각형의 넓이",
-          "12": "삼각함수의 덧셈정리",
-          "13": "삼각함수의 합성",
-          "14": "배각의 공식",
-          "15": "반각의 공식",
-          "16": "곱을 합 또는 차로 변형하는 공식",
-          "17": "합 또는 차를 곱으로 변형하는 공식",
-          "18": "삼각방정식과 부등식의 일반해"
-      }
-    }
-  ],
-  hx: [
-  ]
-};
-document.addEventListener("DOMContentLoaded", function() {
+  // -------------------------------
+  // ④ 과정 선택 및 소단원 구성 (이벤트 리스너)
+  // -------------------------------
   const courseRadios = document.querySelectorAll('input[name="course"]');
   const unitSelect = document.getElementById("unit-select");
   const categoryCheckboxDiv = document.getElementById("category-checkbox");
-  const studyTitle = document.getElementById("study-title");
-
-  // fieldset 요소 (각 단계별 부모 요소)
-  // 반드시 HTML 구조에 맞게 fieldset 요소를 선택하세요.
   const courseFieldset = document.querySelector('fieldset.course');
-  // unitSelect와 categoryCheckboxDiv의 부모 fieldset
-  const unitFieldset = unitSelect.closest("fieldset");
-  const subFieldset = categoryCheckboxDiv.closest("fieldset");
-
+  const unitFieldset = unitSelect ? unitSelect.closest("fieldset") : null;
+  const subFieldset = categoryCheckboxDiv ? categoryCheckboxDiv.closest("fieldset") : null;
   let selectedCourseData = [];
 
-  // 제목 업데이트 함수: 각 선택 단계의 텍스트를 연결하여 표시
+  // updateStudyTitle() - 선택된 label의 텍스트를 표시
   function updateStudyTitle() {
     let courseText = "";
     let unitText = "";
     let categoryTexts = [];
-
-    // 과정(라디오) 선택된 값: 라디오 인풋 앞의 label 텍스트를 사용 (HTML 구조에 따라 수정)
     const checkedRadio = document.querySelector('input[name="course"]:checked');
     if (checkedRadio) {
-      // label이 바로 앞에 있다고 가정하거나, 적절한 방법으로 텍스트를 가져오세요.
       const labelEl = checkedRadio.previousElementSibling;
       if (labelEl && labelEl.tagName.toLowerCase() === "label") {
         courseText = labelEl.textContent.trim();
       }
     }
-    // 대단원 선택
     if (unitSelect && unitSelect.value) {
-      unitText = unitSelect.value;
+      unitText = unitSelect.options[unitSelect.selectedIndex].textContent.trim();
     }
-    // 소단원 선택된 체크박스들
     const checkedCheckboxes = categoryCheckboxDiv.querySelectorAll('input[type="checkbox"]:checked');
     checkedCheckboxes.forEach(function(chk) {
-      categoryTexts.push(chk.value);
+      categoryTexts.push(chk.parentElement.textContent.trim());
     });
-
     let titleText = "";
     if (courseText) titleText += courseText;
     if (unitText) titleText += (titleText ? " → " : "") + unitText;
     if (categoryTexts.length > 0) titleText += (titleText ? " → " : "") + categoryTexts.join(", ");
-    
     studyTitle.textContent = titleText || "타이틀....";
   }
 
-  // 과정 선택 시 처리
   courseRadios.forEach(function(radio) {
     radio.addEventListener("change", function() {
-      // 과정 변경 시 하위 초기화
       unitSelect.innerHTML = '<option value="">대단원 선택</option>';
       unitSelect.disabled = true;
       categoryCheckboxDiv.innerHTML = '';
-      unitFieldset.classList.remove('selected');
-      subFieldset.classList.remove('selected');
+      if (unitFieldset) unitFieldset.classList.remove('selected');
+      if (subFieldset) subFieldset.classList.remove('selected');
       updateStudyTitle();
 
       const courseKey = this.value;
       if (courseData[courseKey]) {
         selectedCourseData = courseData[courseKey];
-        let uniqueUnits = [];
+        let uniqueUnits = {};
         selectedCourseData.forEach(function(item) {
-          const unitText = Object.values(item.unit)[0];
-          if (!uniqueUnits.includes(unitText)) {
-            uniqueUnits.push(unitText);
+          const unitKey = Object.keys(item.unit)[0];
+          const unitVal = Object.values(item.unit)[0];
+          if (!uniqueUnits[unitKey]) {
+            uniqueUnits[unitKey] = unitVal;
           }
         });
-        uniqueUnits.forEach(function(unitText) {
+        for (const key in uniqueUnits) {
           const option = document.createElement("option");
-          option.value = unitText;
-          option.textContent = unitText;
+          option.value = key;
+          option.textContent = uniqueUnits[key];
           unitSelect.appendChild(option);
-        });
+        }
         unitSelect.disabled = false;
       }
     });
   });
 
-  // 대단원 선택 시 처리
   unitSelect.addEventListener("change", function() {
     categoryCheckboxDiv.innerHTML = '';
-    subFieldset.classList.remove('selected');
+    if (subFieldset) subFieldset.classList.remove('selected');
     const selectedUnit = this.value;
     if (selectedUnit && selectedCourseData.length > 0) {
       const matchingItems = selectedCourseData.filter(function(item) {
-        return Object.values(item.unit)[0] === selectedUnit;
+        return Object.keys(item.unit)[0] === selectedUnit;
       });
-      // 대단원 선택이 완료되면 unitFieldset에 .selected 추가
-      unitFieldset.classList.add('selected');
-
+      if (unitFieldset) unitFieldset.classList.add('selected');
       matchingItems.forEach(function(item) {
         const sortedKeys = Object.keys(item.category).sort();
         sortedKeys.forEach(function(key) {
-          const categoryText = item.category[key];
           const label = document.createElement("label");
           label.style.display = "block";
           const checkbox = document.createElement("input");
           checkbox.type = "checkbox";
           checkbox.name = "category";
-          checkbox.value = categoryText;
+          checkbox.value = key;
           label.appendChild(checkbox);
-          label.appendChild(document.createTextNode(categoryText));
+          label.appendChild(document.createTextNode(item.category[key]));
           categoryCheckboxDiv.appendChild(label);
         });
       });
@@ -859,16 +173,117 @@ document.addEventListener("DOMContentLoaded", function() {
     updateStudyTitle();
   });
 
-  // 소단원 체크박스 선택 시 처리 (해당 fieldset에 .selected 클래스 토글)
   categoryCheckboxDiv.addEventListener("change", function() {
     const anyChecked = categoryCheckboxDiv.querySelectorAll('input[type="checkbox"]:checked').length > 0;
-    if (anyChecked) {
-      subFieldset.classList.add('selected');
-    } else {
-      subFieldset.classList.remove('selected');
+    if (subFieldset) {
+      if (anyChecked) {
+        subFieldset.classList.add('selected');
+      } else {
+        subFieldset.classList.remove('selected');
+      }
     }
     updateStudyTitle();
   });
 
-  // (선택 상태 복원 등 필요시 localStorage 등을 활용하여 관리 가능)
+  // -------------------------------
+  // ⑤ 확인 버튼 클릭 시 결과 출력 및 관련 요소 숨김
+  // -------------------------------
+  document.querySelector("#confirm-button").addEventListener("click", function(event) {
+    event.preventDefault();
+
+    let courseCodes = [];
+    let problemCodes = [];
+
+    if (courseField && courseField.style.display !== "none") {
+      const unitKey = document.getElementById("unit-select").value;
+      const checkedCategories = document.querySelectorAll("#category-checkbox input[type='checkbox']:checked");
+      checkedCategories.forEach(function(chk) {
+        courseCodes.push(unitKey + chk.value);
+      });
+    }
+
+    if (problemField && problemField.style.display !== "none") {
+      const selectedType = document.querySelector("input[name='type']:checked");
+      if (selectedType) {
+        const typeVal = selectedType.value;
+        const checkedDifficulties = document.querySelectorAll("input[name='difficulty']:checked");
+        checkedDifficulties.forEach(function(chk) {
+          problemCodes.push(typeVal + chk.value);
+        });
+      }
+    }
+
+    console.log("courseCodes:", courseCodes, "problemCodes:", problemCodes);
+
+    const questionCount = parseInt(document.getElementById("questionCount").value, 10);
+    const pageContents = document.querySelector(".page-contents");
+    pageContents.innerHTML = "";
+
+    // ⑤-1. courseCodes만 있을 경우: 모든 이미지(00~99) 출력
+    if (courseCodes.length > 0 && problemCodes.length === 0) {
+      courseCodes.forEach(function(code) {
+        for (let i = 0; i < 10; i++) {
+          let twoDigit = i.toString().padStart(2, "0");
+          let img = document.createElement("img");
+          img.src = "https://storage.googleapis.com/mathproblemdb-9f42d.firebasestorage.app/mathproblem_high_principleData/" + code + "pa" + twoDigit + ".png";
+          pageContents.appendChild(img);
+        }
+      });
+    }
+
+    // ⑤-2. courseCodes와 problemCodes 모두 있을 경우: dummy 데이터 사용
+    if (courseCodes.length > 0 && problemCodes.length > 0) {
+      let combinedCodes = [];
+      courseCodes.forEach(function(cCode) {
+        problemCodes.forEach(function(pCode) {
+          combinedCodes.push(cCode + pCode);
+        });
+      });
+
+      function fetchFirestoreDataDummy(prefixes, count) {
+        return new Promise((resolve, reject) => {
+          let dummyData = [];
+          prefixes.forEach(function(prefix) {
+            for (let j = 0; j < 100; j++) {
+              let codeSuffix = j.toString().padStart(2, "0");
+              dummyData.push({
+                code: prefix + codeSuffix,
+                htmlQ: `<div>문제(${prefix}${codeSuffix}) - 질문 내용</div>`,
+                htmlA: `<div>문제(${prefix}${codeSuffix}) - 답안 내용</div>`
+              });
+            }
+          });
+          let selectedItems = [];
+          for (let i = 0; i < count; i++) {
+            if (dummyData.length === 0) break;
+            let randIndex = Math.floor(Math.random() * dummyData.length);
+            selectedItems.push(dummyData[randIndex]);
+            dummyData.splice(randIndex, 1);
+          }
+          resolve(selectedItems);
+        });
+      }
+
+      fetchFirestoreDataDummy(combinedCodes, questionCount).then(selectedItems => {
+        selectedItems.forEach(function(item) {
+          let divQ = document.createElement("div");
+          divQ.innerHTML = item.htmlQ;
+          pageContents.appendChild(divQ);
+          let divA = document.createElement("div");
+          divA.innerHTML = item.htmlA;
+          pageContents.appendChild(divA);
+        });
+      }).catch(err => {
+        console.error("Firestore 데이터 가져오기 실패:", err);
+      });
+    }
+
+    // 결과 출력 후 상단 제목, 선택영역, 확인 버튼 숨김
+    document.getElementById("study-title").style.display = "none";
+    const studySelect = document.querySelector(".study-select");
+    if (studySelect) studySelect.style.display = "none";
+    document.getElementById("confirm-button").style.display = "none";
+
+    if (pageDiv) pageDiv.style.display = "block";
+  });
 });

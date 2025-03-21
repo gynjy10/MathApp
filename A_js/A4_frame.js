@@ -1,35 +1,35 @@
-function paginateContent() {
-    const content = document.querySelector("#content");
-    const initialPage = content.querySelector(".page");
+function paginateContents() {
+    const contents = document.querySelector("#contents");
+    const initialPage = contents.querySelector(".page");
     const pageHeight = initialPage.offsetHeight; // A4 높이
     let currentPage = initialPage;
-    let currentContent = initialPage.querySelector(".page-content");
+    let currentContents = initialPage.querySelector(".page-contents");
   
-    // .page-content의 자식 요소들을 배열로 변환
-    const items = Array.from(currentContent.children);
+    // .page-contents의 자식 요소들을 배열로 변환
+    const items = Array.from(currentContents.children);
     // 기존 내용 제거
-    currentContent.innerHTML = '';
+    currentContents.innerHTML = '';
   
     items.forEach(item => {
-      currentContent.appendChild(item);
+      currentContents.appendChild(item);
       if (currentPage.scrollHeight > pageHeight) {
         // 현재 페이지를 초과하면 item을 제거하고 새 페이지 생성
-        currentContent.removeChild(item);
+        currentContents.removeChild(item);
   
         const newPage = document.createElement("div");
         newPage.classList.add("page");
-        const newContent = document.createElement("div");
-        newContent.classList.add("page-content");
+        const newContents = document.createElement("div");
+        newContents.classList.add("page-contents");
   
-        newPage.appendChild(newContent);
-        content.appendChild(newPage);
+        newPage.appendChild(newContents);
+        contents.appendChild(newPage);
   
         currentPage = newPage;
-        currentContent = newContent;
-        currentContent.appendChild(item);
+        currentContents = newContents;
+        currentContents.appendChild(item);
       }
     });
   }
   
-  window.onload = paginateContent;
+  window.onload = paginateContents;
   
