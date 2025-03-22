@@ -144,16 +144,11 @@
         </div>
     </main>
 
-    <!-- study.js의 데이터변수 파일 (모듈화이전까지는)항상 study.js앞에 둘것!!!! -->
-    <script src="D:/git_repositorys/open_work_space/MathApp/B_data/studyCategory.js"></script>
-    <script src="D:/git_repositorys/open_work_space/MathApp/B_data/courseData.js"></script>
-    <!-- study.js -->
-    <script src="D:/git_repositorys/open_work_space/MathApp/A_js/study.js"></script>
-
-    <!-- Firebase App (compat 버전) -->
+    <!-- Firebase 라이브러리 먼저 로드 -->
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <!-- Firebase Firestore (compat 버전) -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>    
+    <!-- Firebase 초기화는 src 없이 별도 script에서 처리 -->
     <script>
         // firebaseConfig 객체에 본인의 API 키 및 프로젝트 정보를 입력해야 합니다.
         const firebaseConfig = {
@@ -166,10 +161,15 @@
         firebase.initializeApp(firebaseConfig);
         // 전역 Firestore 인스턴스 생성
         const db = firebase.firestore();
-    </script>
+    </script>    
 
-    <!-- A4프레임 문제 표현 -->
-    <script src="D:/git_repositorys/open_work_space/MathApp/A_js/A4_frame.js"></script>
+    <!-- study.js의 데이터변수 파일 (모듈화이전까지는)항상 study.js앞에 둘것!!!! -->
+    <script src="D:/git_repositorys/open_work_space/MathApp/B_data/studyCategory.js"></script>
+    <script src="D:/git_repositorys/open_work_space/MathApp/B_data/courseData.js"></script>
+    <script src="D:/git_repositorys/open_work_space/MathApp/B_data/principleImageID.js"></script>
+    <script src="D:/git_repositorys/open_work_space/MathApp/B_data/problemID.js"></script>
+    <!-- study.js -->
+    <script src="D:/git_repositorys/open_work_space/MathApp/A_js/study.js"></script>
 
     <!-- MathJax for rendering mathematical expressions -->
     <script id="MathJax-script" async
