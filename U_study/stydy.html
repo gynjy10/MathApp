@@ -57,19 +57,18 @@
             <div class="title">
                 <h3>나의 학습실</h3>
             </div>
-            <div id="x-category"></div><!-- study.js -->        
-
+            <div id="x-category">좌측 학습과정을 선택해 주세요.</div><!-- study.js -->        
         </div>
 
         <div class="main-frame">
             <div id="y-slide"></div><!-- study.js -->
-
-            <div id="contents">
-                <div id="study-title">타이틀....</div>
-
-                <div class="study-select">
-                    <div>
-                        <form class="course" action="">
+            <div id="contents"><!-- study.js -->
+                <template id="study-title">
+                    타이틀....
+                </template>
+                <template id="study-select">
+                    <template class="course">
+                        <form action="">
                             <fieldset>
                                 <legend>학습 내용 결정</legend>
                                 <fieldset>
@@ -96,9 +95,9 @@
                                 </fieldset>
                             </fieldset>                           
                         </form>
-                    </div>
-                    <div>
-                        <form class="problem" action="">
+                    </template>
+                    <template class="problem">
+                        <form action="">
                             <fieldset>
                                 <legend>문항유형</legend>
                                 <label>이해력</label><input type="radio" name="type" value="u"><br>
@@ -123,39 +122,32 @@
                                     <output id="questionOutput">10</output>
                                 </fieldset>
                             </fieldset>
-
-
                         </form>
-                    </div>                    
-                </div>
-
-                <div id="confirm-button">
+                    </template>                    
+                </template>
+                <template id="confirm-button">
                     <button type="submit">선택하기 or 구성하기</button>
-                </div>
-
+                </template>
                 <!-- A4프레임 문제 표현 -->
-                <div class="page">
+                <template class="page">
                     <div class="page-contents">
                         <!-- 데이터베이스에서 개념image 또는 문제 불러올 자리 -->                 
                     </div>
-                </div>
-
+                </template>
             </div>
         </div>
     </main>
 
-    <!-- Firebase 라이브러리 먼저 로드 -->
+    <!-- Firebase Firestore (compat 버전) 라이브러리 먼저 로드 -->
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-    <!-- Firebase Firestore (compat 버전) -->
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>    
     <!-- Firebase 초기화는 src 없이 별도 script에서 처리 -->
     <script>
-        // firebaseConfig 객체에 본인의 API 키 및 프로젝트 정보를 입력해야 합니다.
+        // firebaseConfig 객체 (API 키, 프로젝트 정보)
         const firebaseConfig = {
         apiKey: "D:/production/mathproblemDB작업실/mathproblemdb-9f42d-firebase-adminsdk-lkhvd-0c975e7784.json",
         authDomain: "mathproblemdb-9f42d.firebaseapp.com",
         projectId: "mathproblemdb-9f42d",
-        // 기타 필요한 설정
         };
         // Firebase 초기화 (한 번만 호출)
         firebase.initializeApp(firebaseConfig);

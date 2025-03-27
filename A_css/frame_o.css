@@ -88,14 +88,6 @@ article {
 }
 
 .interval-y {
-  display: inline-block;
+  display: block;
   height: 20px;
-}
-
-h3 {
-  color: #5905f5;
-}
-
-h4 {
-  color: #025a44;
 }/*# sourceMappingURL=frame_o.css.map */

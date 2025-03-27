@@ -35,13 +35,17 @@ h1 a:active {
 
 .main-top {
   display: flex;
+  align-items: center;
   height: 80px;
+  min-height: 80px;
+  box-sizing: border-box;
 }
 .main-top .title {
   display: flex;
   flex: 0 0 17%;
   background-color: #fadede;
   align-items: center;
+  height: 100%;
   padding: 0 20px;
 }
 .main-top #x-category {
@@ -49,6 +53,7 @@ h1 a:active {
   flex: 1;
   background-color: #f8b1e3;
   align-items: center;
+  height: 100%;
   padding: 0 20px;
 }
 
@@ -95,13 +100,13 @@ h1 a:active {
   border-radius: 8px;
 }
 
-.study-select {
+#study-select {
   display: flex;
   flex: 1;
   justify-content: space-around;
   align-items: center;
 }
-.study-select .course {
+#study-select .course {
   display: flex;
 }
 
@@ -149,7 +154,7 @@ fieldset.selected {
 }
 
 .page + .page {
-  margin-top: 10mm; /* 페이지 간격 */
+  margin-top: 10mm auto; /* 페이지 간격 */
 }
 
 @media print {

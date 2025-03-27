@@ -12,13 +12,11 @@
     font-family: Arial, sans-serif;
   }
 
-  // 전체 페이지를 세로 Flex 컨테이너로 구성
   body {
     display: flex;
     flex-direction: column;
   }
 
-  // 헤더 푸터의 고정 높이
   .head-frame {
     height: 50px;
     background-color: #dcdcdc;
@@ -106,17 +104,6 @@
     width: 20px;
   }
   .interval-y {
-    display: inline-block;
+    display: block;
     height: 20px;
   }
-
-
-
-  // 현재는 임시로 둘것... 문제정리되면제거거
-  h3 {
-      color: #5905f5;
-  }
-  h4 {
-      color: #025a44;
-  }
-
